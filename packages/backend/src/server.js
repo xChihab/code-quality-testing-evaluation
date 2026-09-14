@@ -1,9 +1,10 @@
-const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const express = require('express');
+
 const db = require('./db/database');
-const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
