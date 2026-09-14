@@ -4,8 +4,23 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test --passWithNoTests",
+        "test": "react-scripts test --watchAll=false --passWithNoTests",
+        "test:coverage": "react-scripts test --watchAll=false --coverage --passWithNoTests",
         "lint": "echo \"No lint specified\" && exit 0"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js,jsx,ts,tsx}",
+            "!src/index.js"
+        ],
+        "coverageThreshold": {
+            "global": {
+                "statements": 80,
+                "branches": 60,
+                "functions": 70,
+                "lines": 80
+            }
+        }
     },
     "dependencies": {
         "axios": "^1.12.2",
@@ -28,5 +43,10 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.3",
+        "@testing-library/user-event": "^14.6.7"
     }
 }
