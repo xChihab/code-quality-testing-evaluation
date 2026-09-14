@@ -1,8 +1,8 @@
-const node = require('eslint-plugin-n')
-const unicorn = require('eslint-plugin-unicorn')
-const perfectionist = require('eslint-plugin-perfectionist')
-const prettier = require('eslint-config-prettier')
-const globals = require('globals')
+const node = require('eslint-plugin-n');
+const unicorn = require('eslint-plugin-unicorn');
+const perfectionist = require('eslint-plugin-perfectionist');
+const prettier = require('eslint-config-prettier');
+const globals = require('globals');
 
 module.exports = [
   {
@@ -27,4 +27,4 @@ module.exports = [
       'perfectionist/sort-imports': 'error'
     }
   }
-]
+];

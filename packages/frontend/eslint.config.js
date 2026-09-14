@@ -1,9 +1,9 @@
-const react = require('eslint-plugin-react')
-const reactHooks = require('eslint-plugin-react-hooks')
-const jsxA11y = require('eslint-plugin-jsx-a11y')
-const perfectionist = require('eslint-plugin-perfectionist')
-const prettier = require('eslint-config-prettier')
-const globals = require('globals')
+const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const jsxA11y = require('eslint-plugin-jsx-a11y');
+const perfectionist = require('eslint-plugin-perfectionist');
+const prettier = require('eslint-config-prettier');
+const globals = require('globals');
 
 module.exports = [
   {
@@ -44,4 +44,4 @@ module.exports = [
       'perfectionist/sort-imports': 'error'
     }
   }
-]
+];
