@@ -13,6 +13,12 @@
             "src/**/*.{js,jsx,ts,tsx}",
             "!src/index.js"
         ],
+        "coverageReporters": [
+            "text",
+            "lcov",
+            "clover",
+            "html"
+        ],
         "coverageThreshold": {
             "global": {
                 "statements": 80,
