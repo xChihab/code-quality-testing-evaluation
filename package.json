@@ -12,6 +12,14 @@
         "lint": "npm run lint --workspaces --if-present"
     },
     "devDependencies": {
-        "concurrently": "^8.2.2"
+        "concurrently": "^8.2.2",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.9.6"
+    },
+    "prettier": {
+        "singleQuote": "true",
+        "trailingComma": "none",
+        "tabWidth": "2",
+        "printWidth": "120"
     }
 }
