@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import Navigation from './components/Navigation';
+import AddProduct from './pages/AddProduct';
 import Login from './pages/Login';
+import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import UserList from './pages/UserList';
-import ProductList from './pages/ProductList';
-import AddProduct from './pages/AddProduct';
-import Navigation from './components/Navigation';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));

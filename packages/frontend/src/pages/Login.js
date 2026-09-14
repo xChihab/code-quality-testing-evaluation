@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+
 import { loginUser } from '../services/api';
 
 const Login = ({ onLogin }) => {
@@ -93,7 +94,7 @@ const Login = ({ onLogin }) => {
           marginTop: '20px'
         }}
       >
-        Don't have an account? <Link to="/register">Register</Link>
+        Don&apos;t have an account? <Link to="/register">Register</Link>
       </p>
     </div>
   );
