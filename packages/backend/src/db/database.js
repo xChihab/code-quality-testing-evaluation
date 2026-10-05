@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+
 const initDatabase = require('./migrations/init');
 
 let db = null;
@@ -41,7 +42,6 @@ const connect = async () => {
           reject(initErr);
         }
       });
-
     } catch (err) {
       console.error('Failed to create database connection:', err);
       reject(err);
@@ -79,5 +79,5 @@ const closeConnection = () => {
 module.exports = {
   connect,
   getDb,
-  closeConnection,
+  closeConnection
 };

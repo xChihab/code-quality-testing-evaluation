@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 coverage
 *.sqlite
+package-lock.json
+packages/backend/src/database.sqlite
