@@ -1,9 +1,6 @@
 module.exports = {
   testEnvironment: 'node',
-  collectCoverageFrom: [
-    'src/**/*.js',
-    '!src/server.js'
-  ],
+  collectCoverageFrom: ['src/**/*.js', '!src/server.js'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'clover', 'html'],
   coverageThreshold: {
@@ -14,8 +11,6 @@ module.exports = {
       lines: 80
     }
   },
-  testMatch: [
-    '**/__tests__/**/*.js',
-    '**/?(*.)+(spec|test).js'
-  ]
+  setupFilesAfterEnv: ['<rootDir>/src/testSetup.js'],
+  testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js']
 };
