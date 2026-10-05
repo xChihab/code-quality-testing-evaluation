@@ -1,12 +1,6 @@
 import axios from 'axios';
-import {
-  loginUser,
-  registerUser,
-  getUsers,
-  getProducts,
-  createProduct,
-  logout
-} from '../api';
+
+import { loginUser, registerUser, getUsers, getProducts, createProduct, logout } from '../api';
 
 jest.mock('axios');
 

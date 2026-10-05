@@ -1,5 +1,5 @@
-const productController = require('../productController');
 const db = require('../../db/database');
+const productController = require('../productController');
 
 describe('Product Controller', () => {
   let mockDb;
@@ -74,7 +74,7 @@ describe('Product Controller', () => {
       const req = { body: { name: 'New Laptop', price: 999.99, stock: 5 } };
       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-      mockDb.run.mockImplementation(function(query, params, callback) {
+      mockDb.run.mockImplementation(function (query, params, callback) {
         callback.call({ lastID: 10 }, null);
       });
 
@@ -141,7 +141,7 @@ describe('Product Controller', () => {
       const req = { params: { id: 1 }, body: { stock: 20 } };
       const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
 
-      mockDb.run.mockImplementation(function(query, params, callback) {
+      mockDb.run.mockImplementation(function (query, params, callback) {
         callback.call({ changes: 1 }, null);
       });
 
@@ -154,7 +154,7 @@ describe('Product Controller', () => {
       const req = { params: { id: 999 }, body: { stock: 20 } };
       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-      mockDb.run.mockImplementation(function(query, params, callback) {
+      mockDb.run.mockImplementation(function (query, params, callback) {
         callback.call({ changes: 0 }, null);
       });
 

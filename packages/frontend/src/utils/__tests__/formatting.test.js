@@ -1,10 +1,4 @@
-import {
-  formatDate,
-  formatPrice,
-  formatStock,
-  formatUserName,
-  formatSearchTerm
-} from '../formatting';
+import { formatDate, formatPrice, formatStock, formatUserName, formatSearchTerm } from '../formatting';
 
 describe('Formatting Utilities', () => {
   describe('formatDate', () => {

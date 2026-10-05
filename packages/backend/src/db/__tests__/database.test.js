@@ -8,7 +8,7 @@ describe('Database Module', () => {
   test('connect() establishes database connection and initializes tables', async () => {
     const instance = await db.connect();
     expect(instance).toBeDefined();
-    
+
     // Calling connect again returns the same instance
     const secondCall = await db.connect();
     expect(secondCall).toBe(instance);

@@ -1,6 +1,7 @@
-const userController = require('../userController');
-const db = require('../../db/database');
 const bcrypt = require('bcryptjs');
+
+const db = require('../../db/database');
+const userController = require('../userController');
 
 describe('User Controller', () => {
   let mockDb;
@@ -33,16 +34,14 @@ describe('User Controller', () => {
         json: jest.fn()
       };
 
-      mockDb.run.mockImplementation(function(query, params, callback) {
+      mockDb.run.mockImplementation(function (query, params, callback) {
         callback.call({ lastID: 42 }, null);
       });
 
       userController.registerUser(req, res);
 
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(
-        expect.objectContaining({ auth: true, token: expect.any(String) })
-      );
+      expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ auth: true, token: expect.any(String) }));
     });
 
     test('handles db error during registration', () => {
@@ -187,9 +186,7 @@ describe('User Controller', () => {
 
       expect(res.json).toHaveBeenCalledWith(
         expect.objectContaining({
-          similar: expect.arrayContaining([
-            expect.objectContaining({ user1: 'john', user2: 'johny' })
-          ])
+          similar: expect.arrayContaining([expect.objectContaining({ user1: 'john', user2: 'johny' })])
         })
       );
     });

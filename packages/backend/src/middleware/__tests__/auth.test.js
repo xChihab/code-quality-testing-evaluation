@@ -1,5 +1,6 @@
-const auth = require('../auth');
 const jwt = require('jsonwebtoken');
+
+const auth = require('../auth');
 
 describe('Auth Middleware', () => {
   const SECRET = 'your-super-secret-key-that-should-not-be-hardcoded';

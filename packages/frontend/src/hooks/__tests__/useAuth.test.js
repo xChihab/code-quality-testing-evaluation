@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
+
 import { useAuth } from '../useAuth';
 
 const mockNavigate = jest.fn();

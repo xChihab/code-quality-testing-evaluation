@@ -1,8 +1,9 @@
-import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import ProductList from '../ProductList';
+
 import * as api from '../../services/api';
+import ProductList from '../ProductList';
 
 describe('ProductList Page', () => {
   beforeEach(() => {

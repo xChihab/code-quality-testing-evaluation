@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
-import { useApi } from '../useApi';
 import axios from 'axios';
+
+import { useApi } from '../useApi';
 
 jest.mock('axios');
 

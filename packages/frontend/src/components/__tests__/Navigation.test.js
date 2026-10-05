@@ -1,6 +1,7 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+
 import Navigation from '../Navigation';
 
 const mockNavigate = jest.fn();

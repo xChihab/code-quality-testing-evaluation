@@ -1,8 +1,9 @@
-import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import UserList from '../UserList';
+
 import * as api from '../../services/api';
+import UserList from '../UserList';
 
 describe('UserList Page', () => {
   beforeEach(() => {

@@ -1,10 +1,11 @@
-const request = require('supertest');
-const express = require('express');
 const bodyParser = require('body-parser');
-const userRoutes = require('../userRoutes');
-const productRoutes = require('../productRoutes');
-const db = require('../../db/database');
+const express = require('express');
 const jwt = require('jsonwebtoken');
+const request = require('supertest');
+
+const db = require('../../db/database');
+const productRoutes = require('../productRoutes');
+const userRoutes = require('../userRoutes');
 
 describe('API Routes Integration Tests', () => {
   let app;
@@ -28,14 +29,12 @@ describe('API Routes Integration Tests', () => {
   describe('User Routes', () => {
     test('POST /api/auth/register creates a new user', async () => {
       const username = `testuser_${Date.now()}`;
-      const res = await request(app)
-        .post('/api/auth/register')
-        .send({
-          username,
-          password: 'password123',
-          firstname: 'Test',
-          lastname: 'User'
-        });
+      const res = await request(app).post('/api/auth/register').send({
+        username,
+        password: 'password123',
+        firstname: 'Test',
+        lastname: 'User'
+      });
 
       expect(res.statusCode).toEqual(201);
       expect(res.body).toHaveProperty('auth', true);
@@ -44,18 +43,14 @@ describe('API Routes Integration Tests', () => {
 
     test('POST /api/auth/login logs in user', async () => {
       const username = `loginuser_${Date.now()}`;
-      await request(app)
-        .post('/api/auth/register')
-        .send({
-          username,
-          password: 'pass',
-          firstname: 'Login',
-          lastname: 'User'
-        });
+      await request(app).post('/api/auth/register').send({
+        username,
+        password: 'pass',
+        firstname: 'Login',
+        lastname: 'User'
+      });
 
-      const res = await request(app)
-        .post('/api/auth/login')
-        .send({ username, password: 'pass' });
+      const res = await request(app).post('/api/auth/login').send({ username, password: 'pass' });
 
       expect(res.statusCode).toEqual(200);
       expect(res.body).toHaveProperty('auth', true);
@@ -66,17 +61,13 @@ describe('API Routes Integration Tests', () => {
       const resWithoutToken = await request(app).get('/api/auth/users');
       expect(resWithoutToken.statusCode).toEqual(401);
 
-      const resWithToken = await request(app)
-        .get('/api/auth/users')
-        .set('Authorization', `Bearer ${token}`);
+      const resWithToken = await request(app).get('/api/auth/users').set('Authorization', `Bearer ${token}`);
       expect(resWithToken.statusCode).toEqual(200);
       expect(Array.isArray(resWithToken.body)).toBeTruthy();
     });
 
     test('GET /api/auth/similar-usernames returns similarity matrix', async () => {
-      const res = await request(app)
-        .get('/api/auth/similar-usernames')
-        .set('Authorization', `Bearer ${token}`);
+      const res = await request(app).get('/api/auth/similar-usernames').set('Authorization', `Bearer ${token}`);
       expect(res.statusCode).toEqual(200);
       expect(res.body).toHaveProperty('similar');
     });
@@ -97,9 +88,7 @@ describe('API Routes Integration Tests', () => {
     });
 
     test('GET /api/products lists all products', async () => {
-      const res = await request(app)
-        .get('/api/products')
-        .set('Authorization', `Bearer ${token}`);
+      const res = await request(app).get('/api/products').set('Authorization', `Bearer ${token}`);
 
       expect(res.statusCode).toEqual(200);
       expect(res.body.message).toEqual('success');
@@ -107,9 +96,7 @@ describe('API Routes Integration Tests', () => {
     });
 
     test('GET /api/products/:id fetches single product', async () => {
-      const res = await request(app)
-        .get(`/api/products/${createdProductId}`)
-        .set('Authorization', `Bearer ${token}`);
+      const res = await request(app).get(`/api/products/${createdProductId}`).set('Authorization', `Bearer ${token}`);
 
       expect(res.statusCode).toEqual(200);
       expect(res.body.data.id).toEqual(createdProductId);
