@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "echo \"No tests specified\" && exit 0",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
@@ -23,6 +24,8 @@
     "eslint-plugin-perfectionist": "^5.11.0",
     "eslint-plugin-unicorn": "^74.0.0",
     "globals": "^17.12.0",
-    "nodemon": "^3.1.10"
+    "jest": "^27.5.1",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.2.2"
   }
 }
