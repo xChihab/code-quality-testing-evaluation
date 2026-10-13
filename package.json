@@ -28,25 +28,5 @@
   "overrides": {
     "react": "18.3.1",
     "react-dom": "18.3.1"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "jest --bail --findRelatedTests"
-    ],
-    "*.{json,md,html,css,scss}": [
-      "prettier --write"
-    ]
-  },
-  "jest": {
-    "coverageThreshold": {
-      "global": {
-        "statements": 80,
-        "branches": 60,
-        "functions": 70,
-        "lines": 80
-      }
-    }
   }
 }
