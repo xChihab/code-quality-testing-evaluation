@@ -1,0 +1,2 @@
+# Git hooks are run by sh: keep LF line endings even on Windows
+.husky/* text eol=lf
