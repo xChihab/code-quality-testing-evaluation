@@ -118,7 +118,7 @@ const ProductList = () => {
           <button
             style={{
               padding: '10px 20px',
-              backgroundColor: '#4CAF50',
+              backgroundColor: '#2e7d32',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
@@ -150,7 +150,11 @@ const ProductList = () => {
           }}
         />
 
+        <label className="visually-hidden" htmlFor="price-filter">
+          Filter products by price
+        </label>
         <select
+          id="price-filter"
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
           style={{
@@ -165,7 +169,11 @@ const ProductList = () => {
           <option value="high">High (&gt; $100)</option>
         </select>
 
+        <label className="visually-hidden" htmlFor="stock-filter">
+          Filter products by stock
+        </label>
         <select
+          id="stock-filter"
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
           style={{
@@ -184,7 +192,7 @@ const ProductList = () => {
       {error && (
         <div
           style={{
-            color: 'red',
+            color: '#b71c1c',
             padding: '10px',
             backgroundColor: '#ffebee',
             marginBottom: '20px',
@@ -217,7 +225,7 @@ const ProductList = () => {
             <p
               style={{
                 margin: '5px 0',
-                color: product.stock > 0 ? '#4CAF50' : '#f44336'
+                color: product.stock > 0 ? '#2e7d32' : '#b71c1c'
               }}
             >
               Stock: {product.stock}

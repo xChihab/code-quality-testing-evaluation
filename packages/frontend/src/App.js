@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import UserList from './pages/UserList';
+import './styles/index.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
@@ -47,17 +48,19 @@ function App() {
         }}
       >
         {isAuthenticated && <Navigation onLogout={refreshAuth} />}
-        <Routes>
-          <Route path="/login" element={<Login onLogin={refreshAuth} />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/users" element={<UserList />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/add-product" element={<AddProduct />} />
-          <Route
-            path="/"
-            element={isAuthenticated ? <Navigate to="/products" replace /> : <Navigate to="/login" replace />}
-          />
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/login" element={<Login onLogin={refreshAuth} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/users" element={<UserList />} />
+            <Route path="/products" element={<ProductList />} />
+            <Route path="/add-product" element={<AddProduct />} />
+            <Route
+              path="/"
+              element={isAuthenticated ? <Navigate to="/products" replace /> : <Navigate to="/login" replace />}
+            />
+          </Routes>
+        </main>
       </div>
     </BrowserRouter>
   );
