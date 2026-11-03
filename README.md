@@ -111,6 +111,7 @@ par Git.
 | ----------------------- | -------------------------------------------------------------------------------- |
 | `npm run dev`           | Lance le backend avec `nodemon` et le serveur de développement du frontend       |
 | `npm start`             | Lance le backend avec `node` et le serveur de développement du frontend          |
+| `npm run build`         | Génère le build de production du frontend dans `packages/frontend/build`         |
 | `npm test`              | Lance les suites de tests Jest des deux packages                                 |
 | `npm run test:coverage` | Lance les tests avec rapports de couverture et vérifie les seuils                |
 | `npm run lint`          | Analyse les deux packages avec ESLint                                            |
@@ -119,8 +120,7 @@ par Git.
 | `npm run format:check`  | Vérifie le formatage sans modifier les fichiers                                  |
 | `npm run lighthouse`    | Lance un audit Lighthouse CI (voir [Lighthouse CI](#performance--lighthouse-ci)) |
 
-Un seul package peut être ciblé avec `--workspace`, par exemple `npm run test --workspace=backend` ou
-`npm run build --workspace=frontend` (build de production de l'application React).
+Un seul package peut être ciblé avec `--workspace`, par exemple `npm run test --workspace=backend`.
 
 ## Qualité de code : Prettier et ESLint
 
@@ -226,7 +226,7 @@ L'audit échoue si une catégorie est sous son seuil (configuré dans [`.lightho
 
 Les rapports sont envoyés sur le stockage public temporaire de Lighthouse (le lien est affiché dans le terminal) et
 conservés localement dans `.lighthouseci/` (ignoré par Git). Le serveur de développement n'est pas optimisé : pour des
-scores de performance représentatifs, il faut auditer un build de production (`npm run build --workspace=frontend`)
+scores de performance représentatifs, il faut auditer un build de production (`npm run build`)
 servi de manière statique.
 
 ## Référence de l'API
