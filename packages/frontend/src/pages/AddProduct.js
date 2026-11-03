@@ -46,7 +46,7 @@ const AddProduct = () => {
       {error && (
         <div
           style={{
-            color: 'red',
+            color: '#b71c1c',
             marginBottom: '10px',
             padding: '10px',
             backgroundColor: '#ffebee',
@@ -108,7 +108,7 @@ const AddProduct = () => {
             style={{
               flex: 1,
               padding: '10px',
-              backgroundColor: '#f44336',
+              backgroundColor: '#b71c1c',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
@@ -123,7 +123,7 @@ const AddProduct = () => {
             style={{
               flex: 1,
               padding: '10px',
-              backgroundColor: '#4CAF50',
+              backgroundColor: '#2e7d32',
               color: 'white',
               border: 'none',
               borderRadius: '4px',

@@ -25,6 +25,9 @@ describe('ProductList Page', () => {
       </BrowserRouter>
     );
 
+    expect(screen.getByLabelText('Filter products by price')).toBeInTheDocument();
+    expect(screen.getByLabelText('Filter products by stock')).toBeInTheDocument();
+
     await waitFor(() => {
       expect(screen.getByText('Budget Earbuds')).toBeInTheDocument();
       expect(screen.getByText('Gaming Mouse')).toBeInTheDocument();

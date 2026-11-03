@@ -25,6 +25,9 @@ describe('UserList Page', () => {
       </BrowserRouter>
     );
 
+    expect(screen.getByLabelText('Filter users by join date')).toBeInTheDocument();
+    expect(screen.getByLabelText('Sort users by')).toBeInTheDocument();
+
     await waitFor(() => {
       expect(screen.getByText('Alice Smith')).toBeInTheDocument();
       expect(screen.getByText('Bob Jones')).toBeInTheDocument();

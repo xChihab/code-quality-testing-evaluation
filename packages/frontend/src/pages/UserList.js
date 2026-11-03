@@ -178,7 +178,11 @@ const UserList = () => {
           }}
         />
 
+        <label className="visually-hidden" htmlFor="joined-filter">
+          Filter users by join date
+        </label>
         <select
+          id="joined-filter"
           value={joinedFilter}
           onChange={(e) => setJoinedFilter(e.target.value)}
           style={{
@@ -193,7 +197,11 @@ const UserList = () => {
           <option value="older">Joined earlier</option>
         </select>
 
+        <label className="visually-hidden" htmlFor="sort-field">
+          Sort users by
+        </label>
         <select
+          id="sort-field"
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
           style={{

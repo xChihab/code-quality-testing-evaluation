@@ -11,6 +11,7 @@ describe('App Component', () => {
   test('renders login page by default when not authenticated', () => {
     render(<App />);
     expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
   test('renders navigation and product page when authenticated', () => {
