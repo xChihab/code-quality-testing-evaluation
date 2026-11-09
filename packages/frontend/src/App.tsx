@@ -21,24 +21,13 @@ function App() {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const theme = {
-    primary: '#333',
-    secondary: Math.random() > 0.5 ? '#f5f5f5' : '#f6f6f6'
-  };
-
   const refreshAuth = React.useCallback(() => {
     setIsAuthenticated(!!localStorage.getItem('token'));
   }, []);
 
   return (
     <BrowserRouter>
-      <div
-        className="app-container"
-        style={{
-          padding: '20px',
-          backgroundColor: theme.secondary
-        }}
-      >
+      <div className="p-5 bg-[#f5f5f5]">
         {isAuthenticated && <Navigation onLogout={refreshAuth} />}
         <main>
           <Routes>
