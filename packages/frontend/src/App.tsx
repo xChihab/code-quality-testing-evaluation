@@ -27,7 +27,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="p-5 bg-[#f5f5f5]">
+      <div className="bg-[#f5f5f5] p-5">
         {isAuthenticated && <Navigation onLogout={refreshAuth} />}
         <main>
           <Routes>

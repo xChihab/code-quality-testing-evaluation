@@ -26,12 +26,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-5 m-5 border border-solid border-[#ff0000] rounded bg-[#ffebee]">
+        <div className="m-5 rounded border border-solid border-[#ff0000] bg-[#ffebee] p-5">
           <h2 className="text-2xl font-bold">Something went wrong!</h2>
           <pre className="whitespace-pre-wrap text-[#ff0000]">{this.state.error && this.state.error.toString()}</pre>
           <button
             onClick={() => window.location.reload()}
-            className="py-2 px-4 bg-[#f44336] text-white border-none rounded cursor-pointer"
+            className="cursor-pointer rounded border-none bg-[#f44336] px-4 py-2 text-white"
           >
             Reload Page
           </button>

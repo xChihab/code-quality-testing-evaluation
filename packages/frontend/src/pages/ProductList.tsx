@@ -113,22 +113,22 @@ const ProductList = () => {
 
   return (
     <div className="p-5">
-      <div className="flex justify-between items-center mb-5">
+      <div className="mb-5 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Products</h2>
         <Link to="/add-product">
-          <button className="py-2.5 px-5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
+          <button className="cursor-pointer rounded border-none bg-[#2e7d32] px-5 py-2.5 text-white">
             Add Product
           </button>
         </Link>
       </div>
 
-      <div className="flex gap-2.5 mb-5">
+      <div className="mb-5 flex gap-2.5">
         <input
           type="text"
           placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd] flex-1"
+          className="flex-1 rounded border border-solid border-[#ddd] p-2"
         />
 
         <label className="sr-only" htmlFor="price-filter">
@@ -138,7 +138,7 @@ const ProductList = () => {
           id="price-filter"
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         >
           <option value="">All Prices</option>
           <option value="low">Low (&lt; $50)</option>
@@ -153,7 +153,7 @@ const ProductList = () => {
           id="stock-filter"
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         >
           <option value="">All Stock</option>
           <option value="out">Out of Stock</option>
@@ -162,12 +162,12 @@ const ProductList = () => {
         </select>
       </div>
 
-      {error && <div className="text-[#b71c1c] p-2.5 bg-[#ffebee] mb-5 rounded">{error}</div>}
+      {error && <div className="mb-5 rounded bg-[#ffebee] p-2.5 text-[#b71c1c]">{error}</div>}
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white">
-            <h3 className="text-lg font-bold m-0 mb-2.5">{product.name}</h3>
+          <div key={product.id} className="rounded-lg border border-solid border-[#ddd] bg-white p-[15px]">
+            <h3 className="m-0 mb-2.5 text-lg font-bold">{product.name}</h3>
             <p className="my-[5px] text-[#666]">Price: ${product.price}</p>
             <p className={`my-[5px] ${product.stock > 0 ? 'text-[#2e7d32]' : 'text-[#b71c1c]'}`}>
               Stock: {product.stock}

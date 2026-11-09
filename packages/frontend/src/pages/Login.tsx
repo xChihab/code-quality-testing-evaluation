@@ -25,29 +25,29 @@ const Login = ({ onLogin }: LoginProps) => {
   };
 
   return (
-    <div className="max-w-[400px] mx-auto p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-5">Login</h2>
-      {error && <div className="text-[#b71c1c] mb-2.5 p-2.5 bg-[#ffebee] rounded">{error}</div>}
+    <div className="mx-auto max-w-[400px] rounded-lg p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+      <h2 className="mb-5 text-center text-2xl font-bold">Login</h2>
+      {error && <div className="mb-2.5 rounded bg-[#ffebee] p-2.5 text-[#b71c1c]">{error}</div>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
-        <button type="submit" className="p-2.5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
+        <button type="submit" className="cursor-pointer rounded border-none bg-[#2e7d32] p-2.5 text-white">
           Login
         </button>
       </form>
-      <p className="text-center mt-5">
+      <p className="mt-5 text-center">
         Don&apos;t have an account?{' '}
         <Link to="/register" className="text-blue-700 underline">
           Register

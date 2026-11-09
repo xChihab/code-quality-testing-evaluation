@@ -31,9 +31,9 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-[400px] mx-auto p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-5">Register</h2>
-      {error && <div className="text-[#b71c1c] mb-2.5 p-2.5 bg-[#ffebee] rounded">{error}</div>}
+    <div className="mx-auto max-w-[400px] rounded-lg p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+      <h2 className="mb-5 text-center text-2xl font-bold">Register</h2>
+      {error && <div className="mb-2.5 rounded bg-[#ffebee] p-2.5 text-[#b71c1c]">{error}</div>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
         <input
           type="text"
@@ -41,7 +41,7 @@ const Register = () => {
           placeholder="First Name"
           value={formData.firstname}
           onChange={handleChange}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
         <input
           type="text"
@@ -49,7 +49,7 @@ const Register = () => {
           placeholder="Last Name"
           value={formData.lastname}
           onChange={handleChange}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
         <input
           type="text"
@@ -57,7 +57,7 @@ const Register = () => {
           placeholder="Username"
           value={formData.username}
           onChange={handleChange}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
         <input
           type="password"
@@ -65,13 +65,13 @@ const Register = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
-        <button type="submit" className="p-2.5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
+        <button type="submit" className="cursor-pointer rounded border-none bg-[#2e7d32] p-2.5 text-white">
           Register
         </button>
       </form>
-      <p className="text-center mt-5">
+      <p className="mt-5 text-center">
         Already have an account?{' '}
         <Link to="/login" className="text-blue-700 underline">
           Login

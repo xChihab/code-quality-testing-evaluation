@@ -26,9 +26,9 @@ const Navigation = ({ onLogout }: NavigationProps) => {
   })();
 
   return (
-    <nav className="bg-[#333] p-2.5 mb-5 flex justify-between items-center">
+    <nav className="mb-5 flex items-center justify-between bg-[#333] p-2.5">
       <div>
-        <Link to="/users" className="text-white no-underline mr-5">
+        <Link to="/users" className="mr-5 text-white no-underline">
           Users
         </Link>
         <Link to="/products" className="text-white no-underline">
@@ -36,8 +36,8 @@ const Navigation = ({ onLogout }: NavigationProps) => {
         </Link>
       </div>
       <div className="flex items-center">
-        <span className="text-white mr-5">{greeting}</span>
-        <button onClick={handleLogout} className="bg-[#b71c1c] text-white border-none py-2 px-4 cursor-pointer rounded">
+        <span className="mr-5 text-white">{greeting}</span>
+        <button onClick={handleLogout} className="cursor-pointer rounded border-none bg-[#b71c1c] px-4 py-2 text-white">
           Logout
         </button>
       </div>
