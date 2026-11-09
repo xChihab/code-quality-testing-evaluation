@@ -1,0 +1,84 @@
+import type { Database, RunResult } from 'sqlite3';
+
+import bcrypt from 'bcryptjs';
+
+type Params = (string | number)[];
+
+const run = (db: Database, query: string, params: Params = []) =>
+  new Promise<RunResult>((resolve, reject) => {
+    db.run(query, params, function (this: RunResult, error: Error | null) {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve(this);
+    });
+  });
+
+const get = <T>(db: Database, query: string, params: Params = []) =>
+  new Promise<T>((resolve, reject) => {
+    db.get<T>(query, params, (error, result) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve(result);
+    });
+  });
+
+const initDatabase = async (db: Database) => {
+  await run(
+    db,
+    `
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        firstname TEXT,
+        lastname TEXT,
+        username TEXT UNIQUE,
+        password TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME
+      )
+    `
+  );
+
+  await run(
+    db,
+    `
+      CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        price REAL DEFAULT 0,
+        stock INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT (datetime('now')),
+        updated_at DATETIME
+      )
+    `
+  );
+
+  const users = await get<{ count: number }>(db, 'SELECT COUNT(*) as count FROM users');
+  if (users.count === 0) {
+    const hashedPassword = bcrypt.hashSync('admin123', 8);
+    await run(db, 'INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)', [
+      'Admin',
+      'User',
+      'admin',
+      hashedPassword
+    ]);
+  }
+
+  const products = await get<{ count: number }>(db, 'SELECT COUNT(*) as count FROM products');
+  if (products.count === 0) {
+    const sampleProducts: Params[] = [
+      ['Laptop', 999.99, 10],
+      ['Smartphone', 499.99, 15],
+      ['Headphones', 79.99, 20]
+    ];
+
+    for (const product of sampleProducts) {
+      await run(db, 'INSERT INTO products (name, price, stock) VALUES (?, ?, ?)', product);
+    }
+  }
+};
+
+export default initDatabase;

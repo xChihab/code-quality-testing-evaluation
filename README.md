@@ -24,11 +24,11 @@ ces consignes est suivi dans la section [Avancement du projet](#avancement-du-pr
 
 ## Stack technique
 
-| Partie   | Technologies                                                                                          |
-| -------- | ----------------------------------------------------------------------------------------------------- |
-| Frontend | React 18, React Router 6, Axios, Create React App (`react-scripts`)                                   |
-| Backend  | Node.js, Express 5, SQLite (`sqlite3`), JWT (`jsonwebtoken`), `bcryptjs`                              |
-| Outils   | npm workspaces, Prettier, ESLint, Jest, Testing Library, Supertest, Husky, lint-staged, Lighthouse CI |
+| Partie   | Technologies                                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------------------------------- |
+| Frontend | TypeScript, React 18, React Router 6, Axios, Create React App (`react-scripts`)                                     |
+| Backend  | TypeScript, Node.js, Express 5, SQLite (`sqlite3`), JWT (`jsonwebtoken`), `bcryptjs`                                |
+| Outils   | npm workspaces, Prettier, ESLint, Jest, ts-jest, tsx, Testing Library, Supertest, Husky, lint-staged, Lighthouse CI |
 
 ## Structure du projet
 
@@ -44,10 +44,12 @@ ces consignes est suivi dans la section [Avancement du projet](#avancement-du-pr
 │   │   │   ├── db/          # Connexion SQLite et migrations (+ __tests__)
 │   │   │   ├── middleware/  # Authentification JWT (+ __tests__)
 │   │   │   ├── routes/      # Routeurs Express (+ __tests__)
-│   │   │   ├── server.js    # Point d'entrée de l'application
-│   │   │   └── testSetup.js # Base de données temporaire pour chaque exécution de Jest
+│   │   │   ├── server.ts    # Point d'entrée de l'application
+│   │   │   └── testSetup.ts # Base de données temporaire pour chaque exécution de Jest
 │   │   ├── eslint.config.js
-│   │   ├── jest.config.js
+│   │   ├── jest.config.js   # Jest + ts-jest
+│   │   ├── tsconfig.json    # Vérification des types (sources + tests)
+│   │   ├── tsconfig.build.json # Compilation vers dist/ (sans les tests)
 │   │   └── .lintstagedrc.json
 │   └── frontend/            # Application React (port 3000)
 │       ├── src/
@@ -55,8 +57,10 @@ ces consignes est suivi dans la section [Avancement du projet](#avancement-du-pr
 │       │   ├── hooks/       # useApi, useAuth (+ __tests__)
 │       │   ├── pages/       # Login, Register, ProductList, AddProduct, UserList (+ __tests__)
 │       │   ├── services/    # Client de l'API (+ __tests__)
-│       │   └── utils/       # Fonctions de formatage et de validation (+ __tests__)
+│       │   ├── utils/       # Fonctions de formatage et de validation (+ __tests__)
+│       │   └── types.ts     # Types partagés (User, Product, ApiError)
 │       ├── eslint.config.js
+│       ├── tsconfig.json
 │       └── .lintstagedrc.json
 ├── .lighthouserc.json       # Configuration et seuils de Lighthouse CI
 ├── .prettierrc              # Configuration Prettier commune
@@ -109,8 +113,8 @@ par Git.
 
 | Script                  | Description                                                                      |
 | ----------------------- | -------------------------------------------------------------------------------- |
-| `npm run dev`           | Lance le backend avec `nodemon` et le serveur de développement du frontend       |
-| `npm start`             | Lance le backend avec `node` et le serveur de développement du frontend          |
+| `npm run dev`           | Lance le backend avec `tsx watch` et le serveur de développement du frontend     |
+| `npm start`             | Compile le backend (`tsc`) puis le lance avec `node`, et lance le frontend       |
 | `npm test`              | Lance les suites de tests Jest des deux packages                                 |
 | `npm run test:coverage` | Lance les tests avec rapports de couverture et vérifie les seuils                |
 | `npm run lint`          | Analyse les deux packages avec ESLint                                            |
@@ -121,6 +125,9 @@ par Git.
 
 Un seul package peut être ciblé avec `--workspace`, par exemple `npm run test --workspace=backend` ou
 `npm run build --workspace=frontend` (build de production de l'application React).
+
+Chaque package expose aussi `npm run typecheck` (`tsc --noEmit`, mode `strict`), par exemple
+`npm run typecheck --workspace=backend`.
 
 ## Qualité de code : Prettier et ESLint
 
@@ -148,6 +155,7 @@ Chaque package a sa propre configuration au format « flat config » (`eslint.co
 | Backend  | 10     | `eslint-plugin-n`, `eslint-plugin-unicorn`, `eslint-plugin-perfectionist`                                   |
 
 Le frontend reste sur ESLint 8 car `react-scripts` 5 en dépend ; le backend utilise la dernière version majeure.
+Les deux configurations utilisent le parser de `typescript-eslint` pour analyser les fichiers `.ts`/`.tsx`.
 
 **Faire cohabiter Prettier et ESLint :** les deux configurations intègrent les règles de `eslint-config-prettier`,
 qui désactive toutes les règles ESLint en conflit avec Prettier. ESLint s'occupe de la qualité du code (bugs, règles
@@ -157,8 +165,8 @@ des hooks React, accessibilité, ordre des imports), Prettier uniquement de la m
 
 Jest est configuré dans les deux packages :
 
-- **Backend** ([`jest.config.js`](packages/backend/jest.config.js)) : environnement Node, Supertest pour les tests
-  d'intégration HTTP. `src/testSetup.js` fait pointer `DB_PATH` vers un fichier SQLite temporaire à chaque exécution :
+- **Backend** ([`jest.config.js`](packages/backend/jest.config.js)) : environnement Node, `ts-jest` pour exécuter les
+  tests TypeScript (avec vérification des types), Supertest pour les tests d'intégration HTTP. `src/testSetup.ts` fait pointer `DB_PATH` vers un fichier SQLite temporaire à chaque exécution :
   les tests ne touchent jamais la base de développement.
 - **Frontend** (clé `jest` du [`package.json`](packages/frontend/package.json)) : lancé via `react-scripts test` avec
   Testing Library ; les appels à l'API sont mockés.
@@ -195,8 +203,8 @@ fichier soit vérifié avec la version d'ESLint et la configuration Jest de son 
 
 | Fichier de configuration               | Fichiers                                    | Tâches                                                                        |
 | -------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
-| `packages/backend/.lintstagedrc.json`  | `src/**/*.js`                               | `eslint --fix` → `prettier --write` → `jest --findRelatedTests`               |
-| `packages/frontend/.lintstagedrc.json` | `src/**/*.{js,jsx}`                         | `eslint --fix` → `prettier --write` → `react-scripts test --findRelatedTests` |
+| `packages/backend/.lintstagedrc.json`  | `src/**/*.ts`                               | `eslint --fix` → `prettier --write` → `jest --findRelatedTests`               |
+| `packages/frontend/.lintstagedrc.json` | `src/**/*.{ts,tsx}`                         | `eslint --fix` → `prettier --write` → `react-scripts test --findRelatedTests` |
 | les deux packages                      | `*.{json,md}` (+ css/html dans le frontend) | `prettier --write`                                                            |
 | `.lintstagedrc.json` (racine)          | `*.{json,md}`                               | `prettier --write`                                                            |
 
@@ -303,6 +311,7 @@ L'application a été reprise « en l'état » et contient encore des problèmes
 ### Bonus
 
 - [ ] Tailwind CSS, plugin ESLint pour Tailwind, design system, responsive, mode sombre
-- [ ] TypeScript et plugins ESLint pour TypeScript
+- [x] TypeScript (backend et frontend, mode `strict`)
+- [ ] Plugins ESLint pour TypeScript
 - [ ] Error boundaries, gestion d'état, système de logs, gestion des variables d'environnement
 - [ ] Catégories de produits, recherche, tri/filtrage, pagination, rôles utilisateurs

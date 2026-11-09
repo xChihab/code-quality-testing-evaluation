@@ -5,3 +5,5 @@ coverage
 package-lock.json
 packages/backend/src/database.sqlite
 .lighthouseci
+dist
+build

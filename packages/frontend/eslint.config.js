@@ -4,14 +4,16 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const perfectionist = require('eslint-plugin-perfectionist');
 const prettier = require('eslint-config-prettier');
 const globals = require('globals');
+const tseslint = require('typescript-eslint');
 
 module.exports = [
   {
     ignores: ['build/**']
   },
   {
-    files: ['src/**/*.{js,jsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
+      parser: tseslint.parser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
