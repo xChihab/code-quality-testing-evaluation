@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useApi } from '../useApi';
 
 jest.mock('axios');
+const mockedAxios = axios as unknown as jest.Mock;
 
 describe('useApi Hook', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('useApi Hook', () => {
   });
 
   test('makes successful API request', async () => {
-    axios.mockResolvedValueOnce({ data: { message: 'success' } });
+    mockedAxios.mockResolvedValueOnce({ data: { message: 'success' } });
 
     const { result } = renderHook(() => useApi());
 
@@ -27,7 +28,7 @@ describe('useApi Hook', () => {
   });
 
   test('handles API request error', async () => {
-    axios.mockRejectedValueOnce({
+    mockedAxios.mockRejectedValueOnce({
       response: { data: { error: 'Request Failed' } }
     });
 
@@ -46,7 +47,7 @@ describe('useApi Hook', () => {
   });
 
   test('supports put and delete HTTP methods', async () => {
-    axios.mockResolvedValue({ data: { ok: true } });
+    mockedAxios.mockResolvedValue({ data: { ok: true } });
 
     const { result } = renderHook(() => useApi());
 

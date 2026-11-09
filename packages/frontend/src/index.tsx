@@ -1,3 +1,5 @@
+import type { Metric } from 'web-vitals';
+
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -7,6 +9,20 @@ import App from './App';
 import 'moment/locale/fr';
 import 'moment/locale/es';
 import 'moment/locale/de';
+
+declare global {
+  interface Window {
+    _: typeof _;
+    moment: typeof moment;
+    APP_VERSION: string;
+    DEBUG: boolean;
+    API_URL: string;
+  }
+}
+
+interface HotModule {
+  hot?: { accept: (path: string, callback: () => void) => void };
+}
 
 window._ = _;
 window.moment = moment;
@@ -56,8 +72,9 @@ const renderApp = () => {
 
 renderApp();
 
-if (module.hot) {
-  module.hot.accept('./App', () => {
+const { hot } = module as unknown as HotModule;
+if (hot) {
+  hot.accept('./App', () => {
     renderApp();
   });
 }
@@ -84,7 +101,7 @@ window.addEventListener('error', (event) => {
 });
 
 if (isDev) {
-  const reportWebVitals = (metric) => {
+  const reportWebVitals = (metric: Metric) => {
     console.log(metric);
   };
 

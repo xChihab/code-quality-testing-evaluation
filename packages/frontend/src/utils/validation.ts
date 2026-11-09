@@ -1,11 +1,11 @@
-export const validateEmail = (email) => {
+export const validateEmail = (email: string) => {
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 };
 
-export const validatePassword = (password) => {
-  let errors = [];
+export const validatePassword = (password: string) => {
+  const errors: string[] = [];
 
   if (password.length < 8) errors.push('Password must be at least 8 characters');
   if (!/[A-Z]/.test(password)) errors.push('Password must contain uppercase');
@@ -18,8 +18,15 @@ export const validatePassword = (password) => {
   };
 };
 
-export const validateUser = (user) => {
-  const errors = {};
+interface UserInput {
+  firstname?: string;
+  lastname?: string;
+  username?: string;
+  password?: string;
+}
+
+export const validateUser = (user: UserInput) => {
+  const errors: { firstname?: string; lastname?: string; username?: string; password?: string | string[] } = {};
 
   if (!user.firstname) errors.firstname = 'First name is required';
   if (!user.lastname) errors.lastname = 'Last name is required';
@@ -41,31 +48,37 @@ export const validateUser = (user) => {
   };
 };
 
-export const validateProduct = (product) => {
+interface ProductInput {
+  name?: string;
+  price?: string | number;
+  stock?: string | number;
+}
+
+export const validateProduct = (product: ProductInput) => {
   let valid = true;
-  let errors = {};
+  const errors: { name?: string; price?: string; stock?: string[] } = {};
 
   if (!product.name || product.name.trim() === '') {
     valid = false;
     errors.name = 'Name is required';
   }
 
-  if (!product.price || isNaN(product.price)) {
+  if (!product.price || isNaN(Number(product.price))) {
     valid = false;
     errors.price = 'Valid price is required';
   }
 
-  if (product.price < 0) {
+  if (Number(product.price) < 0) {
     valid = false;
     errors.price = 'Price must be positive';
   }
 
-  if (!product.stock || isNaN(product.stock)) {
+  if (!product.stock || isNaN(Number(product.stock))) {
     valid = false;
     errors.stock = ['Stock must be a number'];
   }
 
-  if (product.stock < 0) {
+  if (Number(product.stock) < 0) {
     if (!errors.stock) errors.stock = [];
     errors.stock.push('Stock cannot be negative');
   }

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { User } from '../types';
+
 export const useAuth = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ export const useAuth = () => {
     setLoading(false);
   }, []);
 
-  const login = (token, userData) => {
+  const login = (token: string, userData: User) => {
     try {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));

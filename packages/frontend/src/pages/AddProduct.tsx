@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { ApiError } from '../types';
+
 import { createProduct } from '../services/api';
 
 const AddProduct = () => {
@@ -10,7 +12,7 @@ const AddProduct = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name || !price || !stock) {
@@ -26,7 +28,7 @@ const AddProduct = () => {
       });
       navigate('/products');
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to create product');
+      setError((err as ApiError).response?.data?.error || 'Failed to create product');
       console.error('Error creating product:', err);
     }
   };

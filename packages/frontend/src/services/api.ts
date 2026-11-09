@@ -1,8 +1,10 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
+
+import type { Product, User } from '../types';
 
 const API_URL = 'http://localhost:3001/api';
 
-export const loginUser = async (username, password) => {
+export const loginUser = async (username: string, password: string) => {
   try {
     const response = await axios.post(`${API_URL}/auth/login`, {
       username,
@@ -12,17 +14,22 @@ export const loginUser = async (username, password) => {
     localStorage.setItem('user', JSON.stringify(response.data.user));
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    throw (error as AxiosError).response!.data;
   }
 };
 
-export const registerUser = async (userData) => {
+export const registerUser = async (userData: {
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+}) => {
   const response = await axios.post(`${API_URL}/auth/register`, userData);
   localStorage.setItem('token', response.data.token);
   return response.data;
 };
 
-export async function getUsers() {
+export async function getUsers(): Promise<User[]> {
   const token = localStorage.getItem('token');
   return axios
     .get(`${API_URL}/auth/users`, {
@@ -38,7 +45,7 @@ export const getProducts = async () => {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    const products = response.data.data;
+    const products: Product[] = response.data.data;
 
     const processedProducts = [];
     for (let i = 0; i < products.length; i++) {
@@ -73,7 +80,7 @@ export const getProducts = async () => {
   }
 };
 
-export const createProduct = async (productData) => {
+export const createProduct = async (productData: { name: string; price: string | number; stock: string | number }) => {
   const token = localStorage.getItem('token');
   const response = await axios.post(`${API_URL}/products`, productData, {
     headers: { Authorization: `Bearer ${token}` }

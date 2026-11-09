@@ -1,4 +1,4 @@
-export const formatDate = (date) => {
+export const formatDate = (date: string | number | Date | null | undefined) => {
   if (!date) return 'Invalid Date';
 
   try {
@@ -10,11 +10,11 @@ export const formatDate = (date) => {
   }
 };
 
-export const formatPrice = (price) => {
+export const formatPrice = (price: string | number | null | undefined) => {
   if (!price) return '$0.00';
 
   try {
-    const num = parseFloat(price);
+    const num = parseFloat(String(price));
     if (isNaN(num)) return '$0.00';
 
     const parts = num.toFixed(2).split('.');
@@ -26,8 +26,8 @@ export const formatPrice = (price) => {
   }
 };
 
-export const formatStock = (stock) => {
-  const stockNum = parseInt(stock);
+export const formatStock = (stock: string | number | null | undefined) => {
+  const stockNum = parseInt(String(stock));
 
   if (isNaN(stockNum)) {
     return 'Out of Stock';
@@ -44,7 +44,7 @@ export const formatStock = (stock) => {
   }
 };
 
-export const formatUserName = (firstname, lastname) => {
+export const formatUserName = (firstname?: string | null, lastname?: string | null) => {
   if (!firstname && !lastname) return 'Unknown User';
 
   const first = (firstname || '').trim();
@@ -61,7 +61,7 @@ export const formatUserName = (firstname, lastname) => {
   return 'Unknown User';
 };
 
-export const formatSearchTerm = (term) => {
+export const formatSearchTerm = (term?: string | null) => {
   if (!term) return '';
 
   return term

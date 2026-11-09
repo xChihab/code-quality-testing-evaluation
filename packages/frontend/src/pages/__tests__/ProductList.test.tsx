@@ -17,7 +17,7 @@ describe('ProductList Page', () => {
       { id: 3, name: 'Flagship Laptop', price: 1200, stock: 0 }
     ];
 
-    jest.spyOn(api, 'getProducts').mockResolvedValueOnce(productsData);
+    jest.spyOn(api, 'getProducts').mockResolvedValueOnce(productsData as Awaited<ReturnType<typeof api.getProducts>>);
 
     render(
       <BrowserRouter>
@@ -50,7 +50,7 @@ describe('ProductList Page', () => {
       { id: 3, name: 'Flagship Laptop', price: 1200, stock: 0 }
     ];
 
-    jest.spyOn(api, 'getProducts').mockResolvedValueOnce(productsData);
+    jest.spyOn(api, 'getProducts').mockResolvedValueOnce(productsData as Awaited<ReturnType<typeof api.getProducts>>);
 
     render(
       <BrowserRouter>

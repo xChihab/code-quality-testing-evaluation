@@ -3,6 +3,7 @@ import axios from 'axios';
 import { loginUser, registerUser, getUsers, getProducts, createProduct, logout } from '../api';
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('API Services', () => {
   beforeEach(() => {
@@ -11,7 +12,7 @@ describe('API Services', () => {
   });
 
   test('loginUser saves token and user to localStorage', async () => {
-    axios.post.mockResolvedValueOnce({
+    mockedAxios.post.mockResolvedValueOnce({
       data: {
         token: 'token123',
         user: { id: 1, username: 'admin' }
@@ -26,11 +27,11 @@ describe('API Services', () => {
   });
 
   test('registerUser saves token to localStorage', async () => {
-    axios.post.mockResolvedValueOnce({
+    mockedAxios.post.mockResolvedValueOnce({
       data: { token: 'regtoken123' }
     });
 
-    const res = await registerUser({ username: 'newuser' });
+    const res = await registerUser({ username: 'newuser' } as Parameters<typeof registerUser>[0]);
 
     expect(res.token).toBe('regtoken123');
     expect(localStorage.getItem('token')).toBe('regtoken123');
@@ -38,7 +39,7 @@ describe('API Services', () => {
 
   test('getUsers fetches users list with auth token', async () => {
     localStorage.setItem('token', 'token123');
-    axios.get.mockResolvedValueOnce({ data: [{ id: 1, username: 'u1' }] });
+    mockedAxios.get.mockResolvedValueOnce({ data: [{ id: 1, username: 'u1' }] });
 
     const users = await getUsers();
 
@@ -53,7 +54,7 @@ describe('API Services', () => {
 
   test('getProducts processes products with isCheapest and moreExpensiveCount', async () => {
     localStorage.setItem('token', 'token123');
-    axios.get.mockResolvedValueOnce({
+    mockedAxios.get.mockResolvedValueOnce({
       data: {
         data: [
           { id: 1, name: 'Item A', price: 10 },
@@ -72,7 +73,7 @@ describe('API Services', () => {
 
   test('getProducts returns empty array on failure', async () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    axios.get.mockRejectedValueOnce(new Error('Network error'));
+    mockedAxios.get.mockRejectedValueOnce(new Error('Network error'));
 
     const products = await getProducts();
     expect(products).toEqual([]);
@@ -80,7 +81,7 @@ describe('API Services', () => {
 
   test('createProduct posts product data with auth token', async () => {
     localStorage.setItem('token', 'token123');
-    axios.post.mockResolvedValueOnce({ data: { id: 5, name: 'Item C' } });
+    mockedAxios.post.mockResolvedValueOnce({ data: { id: 5, name: 'Item C' } });
 
     const res = await createProduct({ name: 'Item C', price: 20, stock: 5 });
 

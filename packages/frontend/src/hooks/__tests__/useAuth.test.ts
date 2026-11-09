@@ -1,5 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 
+import type { User } from '../../types';
+
 import { useAuth } from '../useAuth';
 
 const mockNavigate = jest.fn();
@@ -32,10 +34,10 @@ describe('useAuth Hook', () => {
     const { result } = renderHook(() => useAuth());
 
     act(() => {
-      result.current.login('new-token', { id: 2, firstname: 'Charlie' });
+      result.current.login('new-token', { id: 2, firstname: 'Charlie' } as User);
     });
 
-    expect(result.current.user).toEqual({ id: 2, firstname: 'Charlie' });
+    expect(result.current.user).toEqual({ id: 2, firstname: 'Charlie' } as User);
     expect(localStorage.getItem('token')).toBe('new-token');
   });
 

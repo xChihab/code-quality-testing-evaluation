@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-import { loginUser } from '../services/api';
+import type { ApiError } from '../types';
 
-const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+import { registerUser } from '../services/api';
+
+const Register = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    firstname: '',
+    lastname: ''
+  });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await loginUser(username, password);
-      onLogin();
+      await registerUser(formData);
       navigate('/products');
     } catch (err) {
-      setError(err.error || 'An error occurred');
+      setError((err as ApiError).response?.data?.error || 'Registration failed');
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -30,7 +40,7 @@ const Login = ({ onLogin }) => {
         borderRadius: '8px'
       }}
     >
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Register</h2>
       {error && (
         <div
           style={{
@@ -54,9 +64,34 @@ const Login = ({ onLogin }) => {
       >
         <input
           type="text"
+          name="firstname"
+          placeholder="First Name"
+          value={formData.firstname}
+          onChange={handleChange}
+          style={{
+            padding: '8px',
+            borderRadius: '4px',
+            border: '1px solid #ddd'
+          }}
+        />
+        <input
+          type="text"
+          name="lastname"
+          placeholder="Last Name"
+          value={formData.lastname}
+          onChange={handleChange}
+          style={{
+            padding: '8px',
+            borderRadius: '4px',
+            border: '1px solid #ddd'
+          }}
+        />
+        <input
+          type="text"
+          name="username"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={formData.username}
+          onChange={handleChange}
           style={{
             padding: '8px',
             borderRadius: '4px',
@@ -65,9 +100,10 @@ const Login = ({ onLogin }) => {
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           style={{
             padding: '8px',
             borderRadius: '4px',
@@ -85,7 +121,7 @@ const Login = ({ onLogin }) => {
             cursor: 'pointer'
           }}
         >
-          Login
+          Register
         </button>
       </form>
       <p
@@ -94,10 +130,10 @@ const Login = ({ onLogin }) => {
           marginTop: '20px'
         }}
       >
-        Don&apos;t have an account? <Link to="/register">Register</Link>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
   );
 };
 
-export default Login;
+export default Register;

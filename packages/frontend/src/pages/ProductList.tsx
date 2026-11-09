@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
+import type { Product } from '../types';
+
 import { getProducts } from '../services/api';
 
+interface ProductRow extends Product {
+  searchableText: string;
+  priceCategory: 'cheap' | 'medium' | 'expensive';
+  stockStatus: 'out' | 'low' | 'available';
+}
+
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
+  const [products, setProducts] = useState<ProductRow[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [stockFilter, setStockFilter] = useState('');
@@ -14,7 +22,7 @@ const ProductList = () => {
     const fetchProducts = async () => {
       try {
         const data = await getProducts();
-        const processedData = data.map((item) => ({
+        const processedData = data.map((item): ProductRow => ({
           ...item,
           searchableText: `${item.name.toLowerCase()} ${item.price} ${item.stock}`,
           priceCategory: item.price < 50 ? 'cheap' : item.price < 100 ? 'medium' : 'expensive',
@@ -72,7 +80,7 @@ const ProductList = () => {
     const priceFiltered = searchFiltered.filter((product) => {
       if (!priceFilter) return true;
 
-      const price = parseFloat(product.price);
+      const price = parseFloat(String(product.price));
       switch (priceFilter) {
         case 'low':
           return price < 50 && product.priceCategory === 'cheap';
@@ -88,7 +96,7 @@ const ProductList = () => {
     return priceFiltered.filter((product) => {
       if (!stockFilter) return true;
 
-      const stockNum = parseInt(product.stock);
+      const stockNum = parseInt(String(product.stock));
 
       switch (stockFilter) {
         case 'out':

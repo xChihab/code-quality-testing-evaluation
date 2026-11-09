@@ -1,27 +1,37 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
+import type { User } from '../types';
+
 import { getUsers } from '../services/api';
 
+interface UserRow extends User {
+  searchableText: string;
+  joinedDate: Date;
+  joinedCategory: 'new' | 'recent' | 'old';
+  fullName: string;
+  initials: string;
+}
+
 const UserList = () => {
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
+  const [users, setUsers] = useState<UserRow[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [joinedFilter, setJoinedFilter] = useState('');
-  const [sortField, setSortField] = useState('name');
+  const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState('asc');
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await getUsers();
-        const processedUsers = data.map((user) => ({
+        const processedUsers = data.map((user): UserRow => ({
           ...user,
           searchableText: `${user.firstname.toLowerCase()} ${user.lastname.toLowerCase()} ${user.username.toLowerCase()}`,
           joinedDate: new Date(user.created_at),
           joinedCategory: (() => {
             const created = new Date(user.created_at);
             const now = new Date();
-            const diffTime = Math.abs(now - created);
+            const diffTime = Math.abs(now.getTime() - created.getTime());
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays < 7 ? 'new' : diffDays < 30 ? 'recent' : 'old';
           })(),
@@ -37,7 +47,7 @@ const UserList = () => {
     fetchUsers();
   }, []);
 
-  const searchUsers = useCallback((user, term) => {
+  const searchUsers = useCallback((user: UserRow, term: string) => {
     if (!term) return true;
 
     const searchWords = term.toLowerCase().split(' ');
@@ -62,7 +72,7 @@ const UserList = () => {
           const normalizedSearchWord = word.trim().toLowerCase();
 
           if (normalizedFieldWord.includes(normalizedSearchWord)) {
-            return true * option.weight;
+            return Number(true) * option.weight;
           }
 
           const matrix = Array(normalizedFieldWord.length + 1)
@@ -92,8 +102,8 @@ const UserList = () => {
   }, []);
 
   const sortUsers = useCallback(
-    (a, b) => {
-      let compareValueA, compareValueB;
+    (a: UserRow, b: UserRow) => {
+      let compareValueA: string | number, compareValueB: string | number;
 
       switch (sortField) {
         case 'name':
@@ -109,8 +119,8 @@ const UserList = () => {
           compareValueB = new Date(b.created_at).getTime();
           break;
         default:
-          compareValueA = a[sortField];
-          compareValueB = b[sortField];
+          compareValueA = a[sortField as keyof User];
+          compareValueB = b[sortField as keyof User];
       }
 
       if (sortDirection === 'asc') {
@@ -131,7 +141,7 @@ const UserList = () => {
         if (joinedFilter) {
           const now = new Date();
           const userDate = new Date(user.created_at);
-          const diffTime = Math.abs(now - userDate);
+          const diffTime = Math.abs(now.getTime() - userDate.getTime());
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
           switch (joinedFilter) {

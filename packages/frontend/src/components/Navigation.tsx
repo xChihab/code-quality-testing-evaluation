@@ -3,7 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { logout } from '../services/api';
 
-const Navigation = ({ onLogout }) => {
+interface NavigationProps {
+  onLogout: () => void;
+}
+
+const Navigation = ({ onLogout }: NavigationProps) => {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');

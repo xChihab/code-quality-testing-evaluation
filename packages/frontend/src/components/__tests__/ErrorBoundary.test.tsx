@@ -37,8 +37,8 @@ describe('ErrorBoundary Component', () => {
   });
 
   test('reloads page when reload button is clicked', () => {
-    delete window.location;
-    window.location = { reload: jest.fn() };
+    delete (window as Partial<Window>).location;
+    window.location = { reload: jest.fn() } as unknown as Location;
 
     render(
       <ErrorBoundary>
