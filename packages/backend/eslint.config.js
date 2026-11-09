@@ -3,16 +3,18 @@ const unicorn = require('eslint-plugin-unicorn');
 const perfectionist = require('eslint-plugin-perfectionist');
 const prettier = require('eslint-config-prettier');
 const globals = require('globals');
+const tseslint = require('typescript-eslint');
 
 module.exports = [
   {
-    ignores: ['node_modules/**']
+    ignores: ['node_modules/**', 'dist/**']
   },
   {
-    files: ['src/**/*.js'],
+    files: ['src/**/*.ts'],
     languageOptions: {
+      parser: tseslint.parser,
       ecmaVersion: 'latest',
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: globals.node
     },
     plugins: {

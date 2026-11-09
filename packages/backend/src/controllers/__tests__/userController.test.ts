@@ -1,10 +1,13 @@
-const bcrypt = require('bcryptjs');
+import type { Request, Response } from 'express';
+import type { Database } from 'sqlite3';
 
-const db = require('../../db/database');
-const userController = require('../userController');
+import bcrypt from 'bcryptjs';
+
+import * as db from '../../db/database';
+import * as userController from '../userController';
 
 describe('User Controller', () => {
-  let mockDb;
+  let mockDb: { all: jest.Mock; get: jest.Mock; run: jest.Mock };
 
   beforeEach(() => {
     mockDb = {
@@ -12,7 +15,7 @@ describe('User Controller', () => {
       get: jest.fn(),
       all: jest.fn()
     };
-    jest.spyOn(db, 'getDb').mockReturnValue(mockDb);
+    jest.spyOn(db, 'getDb').mockReturnValue(mockDb as unknown as Database);
   });
 
   afterEach(() => {
@@ -38,7 +41,7 @@ describe('User Controller', () => {
         callback.call({ lastID: 42 }, null);
       });
 
-      userController.registerUser(req, res);
+      userController.registerUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ auth: true, token: expect.any(String) }));
@@ -55,7 +58,7 @@ describe('User Controller', () => {
         callback(new Error('DB Error'));
       });
 
-      userController.registerUser(req, res);
+      userController.registerUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Error creating user' });
@@ -81,7 +84,7 @@ describe('User Controller', () => {
         });
       });
 
-      userController.loginUser(req, res);
+      userController.loginUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(
@@ -103,7 +106,7 @@ describe('User Controller', () => {
         callback(new Error('DB error'), null);
       });
 
-      userController.loginUser(req, res);
+      userController.loginUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
     });
@@ -119,7 +122,7 @@ describe('User Controller', () => {
         callback(null, null);
       });
 
-      userController.loginUser(req, res);
+      userController.loginUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: 'No user found.' });
@@ -137,7 +140,7 @@ describe('User Controller', () => {
         callback(null, { id: 1, username: 'john', password: hashedPassword });
       });
 
-      userController.loginUser(req, res);
+      userController.loginUser(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({ auth: false, token: null });
@@ -153,7 +156,7 @@ describe('User Controller', () => {
         callback(null, [{ id: 1, username: 'user1' }]);
       });
 
-      userController.getAllUsers(req, res);
+      userController.getAllUsers(req as unknown as Request, res as unknown as Response);
 
       expect(res.json).toHaveBeenCalledWith([{ id: 1, username: 'user1' }]);
     });
@@ -166,7 +169,7 @@ describe('User Controller', () => {
         callback(new Error('DB Error'));
       });
 
-      userController.getAllUsers(req, res);
+      userController.getAllUsers(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Error getting users' });
@@ -182,7 +185,7 @@ describe('User Controller', () => {
         callback(null, [{ username: 'john' }, { username: 'johny' }, { username: 'alex' }]);
       });
 
-      userController.findSimilarUsernames(req, res);
+      userController.findSimilarUsernames(req as unknown as Request, res as unknown as Response);
 
       expect(res.json).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -199,7 +202,7 @@ describe('User Controller', () => {
         callback(new Error('DB error'));
       });
 
-      userController.findSimilarUsernames(req, res);
+      userController.findSimilarUsernames(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'DB error' });

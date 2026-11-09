@@ -1,7 +1,7 @@
-const { randomUUID } = require('crypto');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+import { randomUUID } from 'crypto';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 const testDatabasePath = path.join(os.tmpdir(), `quality-tests-${process.pid}-${randomUUID()}.sqlite`);
 process.env.DB_PATH = testDatabasePath;
@@ -11,7 +11,7 @@ afterAll(() => {
     try {
       fs.unlinkSync(`${testDatabasePath}${suffix}`);
     } catch (error) {
-      if (error.code !== 'ENOENT') {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
         throw error;
       }
     }

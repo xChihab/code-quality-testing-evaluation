@@ -1,15 +1,15 @@
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const express = require('express');
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import express, { type NextFunction, type Request, type Response } from 'express';
 
-const db = require('./db/database');
-const productRoutes = require('./routes/productRoutes');
-const userRoutes = require('./routes/userRoutes');
+import * as db from './db/database';
+import productRoutes from './routes/productRoutes';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 
-const requestLog = [];
-const analyticsCache = [];
+const requestLog: unknown[] = [];
+const analyticsCache: unknown[] = [];
 
 app.use(
   cors({
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', userRoutes);
 app.use('/api', productRoutes);
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
@@ -101,4 +101,4 @@ const startServer = async () => {
 
 startServer();
 
-module.exports = app;
+export default app;

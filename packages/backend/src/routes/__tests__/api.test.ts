@@ -1,15 +1,15 @@
-const bodyParser = require('body-parser');
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const request = require('supertest');
+import bodyParser from 'body-parser';
+import express, { type Express } from 'express';
+import jwt from 'jsonwebtoken';
+import request from 'supertest';
 
-const db = require('../../db/database');
-const productRoutes = require('../productRoutes');
-const userRoutes = require('../userRoutes');
+import * as db from '../../db/database';
+import productRoutes from '../productRoutes';
+import userRoutes from '../userRoutes';
 
 describe('API Routes Integration Tests', () => {
-  let app;
-  let token;
+  let app: Express;
+  let token: string;
   const SECRET = 'your-super-secret-key-that-should-not-be-hardcoded';
 
   beforeAll(async () => {
@@ -74,7 +74,7 @@ describe('API Routes Integration Tests', () => {
   });
 
   describe('Product Routes', () => {
-    let createdProductId;
+    let createdProductId: number;
 
     test('POST /api/products creates a product', async () => {
       const res = await request(app)

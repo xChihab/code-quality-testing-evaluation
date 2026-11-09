@@ -1,21 +1,22 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import sqlite3 from 'sqlite3';
 
-const initDatabase = require('./migrations/init');
+import initDatabase from './migrations/init';
 
-let db = null;
+const { Database } = sqlite3.verbose();
+
+let db: sqlite3.Database | null = null;
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'database.sqlite');
 
-const connect = async () => {
+export const connect = async (): Promise<sqlite3.Database> => {
   if (db) {
     return db;
   }
 
   return new Promise((resolve, reject) => {
     try {
-      const fs = require('fs');
-
       if (fs.existsSync(DB_PATH)) {
         const stats = fs.statSync(DB_PATH);
         console.log('Database file size:', stats.size, 'bytes');
@@ -24,7 +25,7 @@ const connect = async () => {
         console.log('Files in db directory:', files.length);
       }
 
-      db = new sqlite3.Database(DB_PATH, async (err) => {
+      const instance = new Database(DB_PATH, async (err) => {
         if (err) {
           console.error('Error connecting to database:', err);
           reject(err);
@@ -34,14 +35,15 @@ const connect = async () => {
         console.log('Connected to SQLite database');
 
         try {
-          await initDatabase(db);
+          await initDatabase(instance);
           console.log('Database initialized');
-          resolve(db);
+          resolve(instance);
         } catch (initErr) {
           console.error('Error initializing database:', initErr);
           reject(initErr);
         }
       });
+      db = instance;
     } catch (err) {
       console.error('Failed to create database connection:', err);
       reject(err);
@@ -50,14 +52,14 @@ const connect = async () => {
 };
 
 // Get database instance - throws error if not connected
-const getDb = () => {
+export const getDb = (): sqlite3.Database => {
   if (!db) {
     throw new Error('Database not connected. Call connect() first.');
   }
   return db;
 };
 
-const closeConnection = () => {
+export const closeConnection = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     if (!db) {
       resolve();
@@ -74,10 +76,4 @@ const closeConnection = () => {
       resolve();
     });
   });
-};
-
-module.exports = {
-  connect,
-  getDb,
-  closeConnection
 };

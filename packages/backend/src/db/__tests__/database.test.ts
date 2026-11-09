@@ -1,4 +1,4 @@
-const db = require('../database');
+import * as db from '../database';
 
 describe('Database Module', () => {
   afterEach(async () => {

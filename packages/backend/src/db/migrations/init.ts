@@ -1,8 +1,12 @@
-const bcrypt = require('bcryptjs');
+import type { Database, RunResult } from 'sqlite3';
 
-const run = (db, query, params = []) =>
-  new Promise((resolve, reject) => {
-    db.run(query, params, function (error) {
+import bcrypt from 'bcryptjs';
+
+type Params = (string | number)[];
+
+const run = (db: Database, query: string, params: Params = []) =>
+  new Promise<RunResult>((resolve, reject) => {
+    db.run(query, params, function (this: RunResult, error: Error | null) {
       if (error) {
         reject(error);
         return;
@@ -11,9 +15,9 @@ const run = (db, query, params = []) =>
     });
   });
 
-const get = (db, query, params = []) =>
-  new Promise((resolve, reject) => {
-    db.get(query, params, (error, result) => {
+const get = <T>(db: Database, query: string, params: Params = []) =>
+  new Promise<T>((resolve, reject) => {
+    db.get<T>(query, params, (error, result) => {
       if (error) {
         reject(error);
         return;
@@ -22,7 +26,7 @@ const get = (db, query, params = []) =>
     });
   });
 
-const initDatabase = async (db) => {
+const initDatabase = async (db: Database) => {
   await run(
     db,
     `
@@ -52,7 +56,7 @@ const initDatabase = async (db) => {
     `
   );
 
-  const users = await get(db, 'SELECT COUNT(*) as count FROM users');
+  const users = await get<{ count: number }>(db, 'SELECT COUNT(*) as count FROM users');
   if (users.count === 0) {
     const hashedPassword = bcrypt.hashSync('admin123', 8);
     await run(db, 'INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)', [
@@ -63,9 +67,9 @@ const initDatabase = async (db) => {
     ]);
   }
 
-  const products = await get(db, 'SELECT COUNT(*) as count FROM products');
+  const products = await get<{ count: number }>(db, 'SELECT COUNT(*) as count FROM products');
   if (products.count === 0) {
-    const sampleProducts = [
+    const sampleProducts: Params[] = [
       ['Laptop', 999.99, 10],
       ['Smartphone', 499.99, 15],
       ['Headphones', 79.99, 20]
@@ -77,4 +81,4 @@ const initDatabase = async (db) => {
   }
 };
 
-module.exports = initDatabase;
+export default initDatabase;

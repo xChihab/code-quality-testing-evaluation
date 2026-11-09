@@ -1,8 +1,11 @@
-const db = require('../../db/database');
-const productController = require('../productController');
+import type { Request, Response } from 'express';
+import type { Database } from 'sqlite3';
+
+import * as db from '../../db/database';
+import * as productController from '../productController';
 
 describe('Product Controller', () => {
-  let mockDb;
+  let mockDb: { all: jest.Mock; get: jest.Mock; run: jest.Mock };
 
   beforeEach(() => {
     mockDb = {
@@ -10,7 +13,7 @@ describe('Product Controller', () => {
       get: jest.fn(),
       run: jest.fn()
     };
-    jest.spyOn(db, 'getDb').mockReturnValue(mockDb);
+    jest.spyOn(db, 'getDb').mockReturnValue(mockDb as unknown as Database);
   });
 
   afterEach(() => {
@@ -36,7 +39,7 @@ describe('Product Controller', () => {
         }
       });
 
-      productController.getAllProducts(req, res);
+      productController.getAllProducts(req as unknown as Request, res as unknown as Response);
 
       // Allow promise ticks inside loop to resolve
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -62,7 +65,7 @@ describe('Product Controller', () => {
         callback(new Error('Fetch error'), null);
       });
 
-      productController.getAllProducts(req, res);
+      productController.getAllProducts(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ error: 'Fetch error' });
@@ -78,7 +81,7 @@ describe('Product Controller', () => {
         callback.call({ lastID: 10 }, null);
       });
 
-      productController.createProduct(req, res);
+      productController.createProduct(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
@@ -97,7 +100,7 @@ describe('Product Controller', () => {
         callback(new Error('Insert error'));
       });
 
-      productController.createProduct(req, res);
+      productController.createProduct(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Error creating product' });
@@ -113,7 +116,7 @@ describe('Product Controller', () => {
         callback(null, { id: 1, name: 'Product 1' });
       });
 
-      productController.getProduct(req, res);
+      productController.getProduct(req as unknown as Request, res as unknown as Response);
 
       expect(res.json).toHaveBeenCalledWith({
         message: 'success',
@@ -129,7 +132,7 @@ describe('Product Controller', () => {
         callback(new Error('Product not found'), null);
       });
 
-      productController.getProduct(req, res);
+      productController.getProduct(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ error: 'Product not found' });
@@ -145,7 +148,7 @@ describe('Product Controller', () => {
         callback.call({ changes: 1 }, null);
       });
 
-      productController.updateStock(req, res);
+      productController.updateStock(req as unknown as Request, res as unknown as Response);
 
       expect(res.json).toHaveBeenCalledWith({ success: true });
     });
@@ -158,7 +161,7 @@ describe('Product Controller', () => {
         callback.call({ changes: 0 }, null);
       });
 
-      productController.updateStock(req, res);
+      productController.updateStock(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: 'Product not found' });
@@ -172,7 +175,7 @@ describe('Product Controller', () => {
         callback(new Error('Update failed'));
       });
 
-      productController.updateStock(req, res);
+      productController.updateStock(req as unknown as Request, res as unknown as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Failed to update stock' });

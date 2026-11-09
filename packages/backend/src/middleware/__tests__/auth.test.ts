@@ -1,6 +1,8 @@
-const jwt = require('jsonwebtoken');
+import type { Request, Response } from 'express';
 
-const auth = require('../auth');
+import jwt, { type JwtPayload } from 'jsonwebtoken';
+
+import auth from '../auth';
 
 describe('Auth Middleware', () => {
   const SECRET = 'your-super-secret-key-that-should-not-be-hardcoded';
@@ -13,7 +15,7 @@ describe('Auth Middleware', () => {
     };
     const next = jest.fn();
 
-    auth(req, res, next);
+    auth(req as Request, res as unknown as Response, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'No token provided' });
@@ -28,7 +30,7 @@ describe('Auth Middleware', () => {
     };
     const next = jest.fn();
 
-    auth(req, res, next);
+    auth(req as Request, res as unknown as Response, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'Failed to authenticate token' });
@@ -37,15 +39,16 @@ describe('Auth Middleware', () => {
 
   test('calls next() and attaches user payload if token is valid', () => {
     const token = jwt.sign({ id: 1, username: 'testuser' }, SECRET);
-    const req = { headers: { authorization: `Bearer ${token}` } };
+    const req = { headers: { authorization: `Bearer ${token}` } } as Request;
     const res = {};
     const next = jest.fn();
 
-    auth(req, res, next);
+    auth(req as Request, res as unknown as Response, next);
 
-    expect(req.user).toBeDefined();
-    expect(req.user.id).toBe(1);
-    expect(req.user.username).toBe('testuser');
+    const user = req.user as JwtPayload;
+    expect(user).toBeDefined();
+    expect(user.id).toBe(1);
+    expect(user.username).toBe('testuser');
     expect(next).toHaveBeenCalled();
   });
 });
