@@ -112,64 +112,33 @@ const ProductList = () => {
   }, [products, searchTerm, priceFilter, stockFilter]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px'
-        }}
-      >
-        <h2>Products</h2>
+    <div className="p-5">
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="text-2xl font-bold">Products</h2>
         <Link to="/add-product">
-          <button
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#2e7d32',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
+          <button className="py-2.5 px-5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
             Add Product
           </button>
         </Link>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: '10px',
-          marginBottom: '20px'
-        }}
-      >
+      <div className="flex gap-2.5 mb-5">
         <input
           type="text"
           placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            flex: 1
-          }}
+          className="p-2 rounded border border-solid border-[#ddd] flex-1"
         />
 
-        <label className="visually-hidden" htmlFor="price-filter">
+        <label className="sr-only" htmlFor="price-filter">
           Filter products by price
         </label>
         <select
           id="price-filter"
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         >
           <option value="">All Prices</option>
           <option value="low">Low (&lt; $50)</option>
@@ -177,18 +146,14 @@ const ProductList = () => {
           <option value="high">High (&gt; $100)</option>
         </select>
 
-        <label className="visually-hidden" htmlFor="stock-filter">
+        <label className="sr-only" htmlFor="stock-filter">
           Filter products by stock
         </label>
         <select
           id="stock-filter"
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         >
           <option value="">All Stock</option>
           <option value="out">Out of Stock</option>
@@ -197,45 +162,14 @@ const ProductList = () => {
         </select>
       </div>
 
-      {error && (
-        <div
-          style={{
-            color: '#b71c1c',
-            padding: '10px',
-            backgroundColor: '#ffebee',
-            marginBottom: '20px',
-            borderRadius: '4px'
-          }}
-        >
-          {error}
-        </div>
-      )}
+      {error && <div className="text-[#b71c1c] p-2.5 bg-[#ffebee] mb-5 rounded">{error}</div>}
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-          gap: '20px'
-        }}
-      >
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5">
         {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            style={{
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              padding: '15px',
-              backgroundColor: 'white'
-            }}
-          >
-            <h3 style={{ margin: '0 0 10px 0' }}>{product.name}</h3>
-            <p style={{ margin: '5px 0', color: '#666' }}>Price: ${product.price}</p>
-            <p
-              style={{
-                margin: '5px 0',
-                color: product.stock > 0 ? '#2e7d32' : '#b71c1c'
-              }}
-            >
+          <div key={product.id} className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white">
+            <h3 className="text-lg font-bold m-0 mb-2.5">{product.name}</h3>
+            <p className="my-[5px] text-[#666]">Price: ${product.price}</p>
+            <p className={`my-[5px] ${product.stock > 0 ? 'text-[#2e7d32]' : 'text-[#b71c1c]'}`}>
               Stock: {product.stock}
             </p>
           </div>
@@ -243,7 +177,7 @@ const ProductList = () => {
       </div>
 
       {filteredProducts.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#666' }}>No products found matching your criteria</p>
+        <p className="my-4 text-center text-[#666]">No products found matching your criteria</p>
       )}
     </div>
   );

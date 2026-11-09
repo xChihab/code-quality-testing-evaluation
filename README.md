@@ -26,7 +26,7 @@ ces consignes est suivi dans la section [Avancement du projet](#avancement-du-pr
 
 | Partie   | Technologies                                                                                                        |
 | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| Frontend | TypeScript, React 18, React Router 6, Axios, Create React App (`react-scripts`)                                     |
+| Frontend | TypeScript, React 18, React Router 6, Axios, Tailwind CSS 3, Create React App (`react-scripts`)                     |
 | Backend  | TypeScript, Node.js, Express 5, SQLite (`sqlite3`), JWT (`jsonwebtoken`), `bcryptjs`                                |
 | Outils   | npm workspaces, Prettier, ESLint, Jest, ts-jest, tsx, Testing Library, Supertest, Husky, lint-staged, Lighthouse CI |
 
@@ -60,6 +60,7 @@ ces consignes est suivi dans la section [Avancement du projet](#avancement-du-pr
 │       │   ├── utils/       # Fonctions de formatage et de validation (+ __tests__)
 │       │   └── types.ts     # Types partagés (User, Product, ApiError)
 │       ├── eslint.config.js
+│       ├── tailwind.config.js # Fichiers scannés par Tailwind
 │       ├── tsconfig.json
 │       └── .lintstagedrc.json
 ├── .lighthouserc.json       # Configuration et seuils de Lighthouse CI
@@ -310,7 +311,8 @@ L'application a été reprise « en l'état » et contient encore des problèmes
 
 ### Bonus
 
-- [ ] Tailwind CSS, plugin ESLint pour Tailwind, design system, responsive, mode sombre
+- [x] Tailwind CSS (styles inline remplacés par des classes utilitaires)
+- [ ] Plugin ESLint pour Tailwind, design system, responsive, mode sombre
 - [x] TypeScript (backend et frontend, mode `strict`)
 - [ ] Plugins ESLint pour TypeScript
 - [ ] Error boundaries, gestion d'état, système de logs, gestion des variables d'environnement

@@ -165,41 +165,26 @@ const UserList = () => {
   }, [users, searchTerm, joinedFilter, searchUsers, sortUsers]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2 style={{ marginBottom: '20px' }}>Users</h2>
+    <div className="p-5">
+      <h2 className="text-2xl font-bold mb-5">Users</h2>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: '10px',
-          marginBottom: '20px'
-        }}
-      >
+      <div className="flex gap-2.5 mb-5">
         <input
           type="text"
           placeholder="Search users..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            flex: 1
-          }}
+          className="p-2 rounded border border-solid border-[#ddd] flex-1"
         />
 
-        <label className="visually-hidden" htmlFor="joined-filter">
+        <label className="sr-only" htmlFor="joined-filter">
           Filter users by join date
         </label>
         <select
           id="joined-filter"
           value={joinedFilter}
           onChange={(e) => setJoinedFilter(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         >
           <option value="">All Users</option>
           <option value="week">Joined this week</option>
@@ -207,18 +192,14 @@ const UserList = () => {
           <option value="older">Joined earlier</option>
         </select>
 
-        <label className="visually-hidden" htmlFor="sort-field">
+        <label className="sr-only" htmlFor="sort-field">
           Sort users by
         </label>
         <select
           id="sort-field"
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         >
           <option value="name">Sort by Name</option>
           <option value="username">Sort by Username</option>
@@ -227,65 +208,27 @@ const UserList = () => {
 
         <button
           onClick={() => setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            backgroundColor: 'white',
-            cursor: 'pointer'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd] bg-white cursor-pointer"
         >
           {sortDirection === 'asc' ? '↑' : '↓'}
         </button>
       </div>
 
-      {error && (
-        <div
-          style={{
-            color: 'red',
-            padding: '10px',
-            backgroundColor: '#ffebee',
-            marginBottom: '20px',
-            borderRadius: '4px'
-          }}
-        >
-          {error}
-        </div>
-      )}
+      {error && <div className="text-[red] p-2.5 bg-[#ffebee] mb-5 rounded">{error}</div>}
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '15px'
-        }}
-      >
+      <div className="grid gap-[15px]">
         {filteredUsers.map((user) => (
           <div
             key={user.id}
-            style={{
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              padding: '15px',
-              backgroundColor: 'white',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
+            className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white flex justify-between items-center"
           >
             <div>
-              <h3 style={{ margin: '0 0 5px 0' }}>
+              <h3 className="text-lg font-bold m-0 mb-[5px]">
                 {user.firstname} {user.lastname}
               </h3>
-              <p style={{ margin: '0', color: '#666' }}>@{user.username}</p>
+              <p className="m-0 text-[#666]">@{user.username}</p>
             </div>
-            <div
-              style={{
-                backgroundColor: '#e3f2fd',
-                padding: '5px 10px',
-                borderRadius: '4px',
-                fontSize: '0.9em'
-              }}
-            >
+            <div className="bg-[#e3f2fd] py-[5px] px-2.5 rounded text-[0.9em]">
               Joined: {new Date(user.created_at).toLocaleDateString()}
             </div>
           </div>
@@ -293,7 +236,7 @@ const UserList = () => {
       </div>
 
       {filteredUsers.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#666' }}>No users found matching your criteria</p>
+        <p className="my-4 text-center text-[#666]">No users found matching your criteria</p>
       )}
     </div>
   );

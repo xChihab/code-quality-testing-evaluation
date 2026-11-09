@@ -34,49 +34,18 @@ const AddProduct = () => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: '400px',
-        margin: '0 auto',
-        padding: '20px',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        borderRadius: '8px'
-      }}
-    >
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Add New Product</h2>
+    <div className="max-w-[400px] mx-auto p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg">
+      <h2 className="text-2xl font-bold text-center mb-5">Add New Product</h2>
 
-      {error && (
-        <div
-          style={{
-            color: '#b71c1c',
-            marginBottom: '10px',
-            padding: '10px',
-            backgroundColor: '#ffebee',
-            borderRadius: '4px'
-          }}
-        >
-          {error}
-        </div>
-      )}
+      {error && <div className="text-[#b71c1c] mb-2.5 p-2.5 bg-[#ffebee] rounded">{error}</div>}
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px'
-        }}
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
         <input
           type="text"
           placeholder="Product Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         />
 
         <input
@@ -84,11 +53,7 @@ const AddProduct = () => {
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         />
 
         <input
@@ -96,42 +61,19 @@ const AddProduct = () => {
           placeholder="Stock"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         />
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div className="flex gap-2.5">
           <button
             type="button"
             onClick={() => navigate('/products')}
-            style={{
-              flex: 1,
-              padding: '10px',
-              backgroundColor: '#b71c1c',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
+            className="flex-1 p-2.5 bg-[#b71c1c] text-white border-none rounded cursor-pointer"
           >
             Cancel
           </button>
 
-          <button
-            type="submit"
-            style={{
-              flex: 1,
-              padding: '10px',
-              backgroundColor: '#2e7d32',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
+          <button type="submit" className="flex-1 p-2.5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
             Add Product
           </button>
         </div>

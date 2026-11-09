@@ -25,80 +25,33 @@ const Login = ({ onLogin }: LoginProps) => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: '400px',
-        margin: '0 auto',
-        padding: '20px',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        borderRadius: '8px'
-      }}
-    >
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
-      {error && (
-        <div
-          style={{
-            color: '#b71c1c',
-            marginBottom: '10px',
-            padding: '10px',
-            backgroundColor: '#ffebee',
-            borderRadius: '4px'
-          }}
-        >
-          {error}
-        </div>
-      )}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px'
-        }}
-      >
+    <div className="max-w-[400px] mx-auto p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg">
+      <h2 className="text-2xl font-bold text-center mb-5">Login</h2>
+      {error && <div className="text-[#b71c1c] mb-2.5 p-2.5 bg-[#ffebee] rounded">{error}</div>}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd'
-          }}
+          className="p-2 rounded border border-solid border-[#ddd]"
         />
-        <button
-          type="submit"
-          style={{
-            padding: '10px',
-            backgroundColor: '#2e7d32',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
+        <button type="submit" className="p-2.5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
           Login
         </button>
       </form>
-      <p
-        style={{
-          textAlign: 'center',
-          marginTop: '20px'
-        }}
-      >
-        Don&apos;t have an account? <Link to="/register">Register</Link>
+      <p className="text-center mt-5">
+        Don&apos;t have an account?{' '}
+        <Link to="/register" className="text-blue-700 underline">
+          Register
+        </Link>
       </p>
     </div>
   );
