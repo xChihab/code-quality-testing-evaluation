@@ -168,8 +168,8 @@ const ProductList = () => {
         {filteredProducts.map((product) => (
           <div key={product.id} className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white">
             <h3 className="text-lg font-bold m-0 mb-2.5">{product.name}</h3>
-            <p className="my-1.25 text-[#666]">Price: ${product.price}</p>
-            <p className={`my-1.25 ${product.stock > 0 ? 'text-[#2e7d32]' : 'text-[#b71c1c]'}`}>
+            <p className="my-[5px] text-[#666]">Price: ${product.price}</p>
+            <p className={`my-[5px] ${product.stock > 0 ? 'text-[#2e7d32]' : 'text-[#b71c1c]'}`}>
               Stock: {product.stock}
             </p>
           </div>

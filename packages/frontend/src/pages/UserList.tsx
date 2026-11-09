@@ -223,12 +223,12 @@ const UserList = () => {
             className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white flex justify-between items-center"
           >
             <div>
-              <h3 className="text-lg font-bold m-0 mb-1.25">
+              <h3 className="text-lg font-bold m-0 mb-[5px]">
                 {user.firstname} {user.lastname}
               </h3>
               <p className="m-0 text-[#666]">@{user.username}</p>
             </div>
-            <div className="bg-[#e3f2fd] py-1.25 px-2.5 rounded text-[0.9em]">
+            <div className="bg-[#e3f2fd] py-[5px] px-2.5 rounded text-[0.9em]">
               Joined: {new Date(user.created_at).toLocaleDateString()}
             </div>
           </div>
