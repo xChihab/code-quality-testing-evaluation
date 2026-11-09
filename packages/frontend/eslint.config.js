@@ -4,7 +4,9 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const perfectionist = require('eslint-plugin-perfectionist');
 const prettier = require('eslint-config-prettier');
 const globals = require('globals');
+const path = require('path');
 const tseslint = require('typescript-eslint');
+const tailwind = require('eslint-plugin-tailwindcss');
 
 module.exports = [
   {
@@ -28,12 +30,16 @@ module.exports = [
       react,
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
-      perfectionist
+      perfectionist,
+      tailwindcss: tailwind
     },
     //pour adapter les regles esLint a la version de react
     settings: {
       react: {
         version: 'detect'
+      },
+      tailwindcss: {
+        config: path.join(__dirname, 'tailwind.config.js')
       }
     },
     rules: {
@@ -43,7 +49,14 @@ module.exports = [
       ...prettier.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      'perfectionist/sort-imports': 'error'
+      'perfectionist/sort-imports': 'error',
+      // règles Tailwind en erreur (et non en warning) pour bloquer le commit via lint-staged
+      ...Object.fromEntries(
+        Object.entries(tailwind.configs.recommended.rules).map(([rule, level]) => [
+          rule,
+          level === 'off' ? 'off' : 'error'
+        ])
+      )
     }
   }
 ];

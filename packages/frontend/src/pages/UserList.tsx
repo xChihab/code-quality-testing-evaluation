@@ -166,15 +166,15 @@ const UserList = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold mb-5">Users</h2>
+      <h2 className="mb-5 text-2xl font-bold">Users</h2>
 
-      <div className="flex gap-2.5 mb-5">
+      <div className="mb-5 flex gap-2.5">
         <input
           type="text"
           placeholder="Search users..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd] flex-1"
+          className="flex-1 rounded border border-solid border-[#ddd] p-2"
         />
 
         <label className="sr-only" htmlFor="joined-filter">
@@ -184,7 +184,7 @@ const UserList = () => {
           id="joined-filter"
           value={joinedFilter}
           onChange={(e) => setJoinedFilter(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         >
           <option value="">All Users</option>
           <option value="week">Joined this week</option>
@@ -199,7 +199,7 @@ const UserList = () => {
           id="sort-field"
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         >
           <option value="name">Sort by Name</option>
           <option value="username">Sort by Username</option>
@@ -208,27 +208,27 @@ const UserList = () => {
 
         <button
           onClick={() => setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
-          className="p-2 rounded border border-solid border-[#ddd] bg-white cursor-pointer"
+          className="cursor-pointer rounded border border-solid border-[#ddd] bg-white p-2"
         >
           {sortDirection === 'asc' ? '↑' : '↓'}
         </button>
       </div>
 
-      {error && <div className="text-[red] p-2.5 bg-[#ffebee] mb-5 rounded">{error}</div>}
+      {error && <div className="mb-5 rounded bg-[#ffebee] p-2.5 text-[red]">{error}</div>}
 
       <div className="grid gap-[15px]">
         {filteredUsers.map((user) => (
           <div
             key={user.id}
-            className="border border-solid border-[#ddd] rounded-lg p-[15px] bg-white flex justify-between items-center"
+            className="flex items-center justify-between rounded-lg border border-solid border-[#ddd] bg-white p-[15px]"
           >
             <div>
-              <h3 className="text-lg font-bold m-0 mb-[5px]">
+              <h3 className="m-0 mb-[5px] text-lg font-bold">
                 {user.firstname} {user.lastname}
               </h3>
               <p className="m-0 text-[#666]">@{user.username}</p>
             </div>
-            <div className="bg-[#e3f2fd] py-[5px] px-2.5 rounded text-[0.9em]">
+            <div className="rounded bg-[#e3f2fd] px-2.5 py-[5px] text-[0.9em]">
               Joined: {new Date(user.created_at).toLocaleDateString()}
             </div>
           </div>

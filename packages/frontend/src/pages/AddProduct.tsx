@@ -34,10 +34,10 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-[400px] mx-auto p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-5">Add New Product</h2>
+    <div className="mx-auto max-w-[400px] rounded-lg p-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+      <h2 className="mb-5 text-center text-2xl font-bold">Add New Product</h2>
 
-      {error && <div className="text-[#b71c1c] mb-2.5 p-2.5 bg-[#ffebee] rounded">{error}</div>}
+      {error && <div className="mb-2.5 rounded bg-[#ffebee] p-2.5 text-[#b71c1c]">{error}</div>}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
         <input
@@ -45,7 +45,7 @@ const AddProduct = () => {
           placeholder="Product Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
 
         <input
@@ -53,7 +53,7 @@ const AddProduct = () => {
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
 
         <input
@@ -61,19 +61,19 @@ const AddProduct = () => {
           placeholder="Stock"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
-          className="p-2 rounded border border-solid border-[#ddd]"
+          className="rounded border border-solid border-[#ddd] p-2"
         />
 
         <div className="flex gap-2.5">
           <button
             type="button"
             onClick={() => navigate('/products')}
-            className="flex-1 p-2.5 bg-[#b71c1c] text-white border-none rounded cursor-pointer"
+            className="flex-1 cursor-pointer rounded border-none bg-[#b71c1c] p-2.5 text-white"
           >
             Cancel
           </button>
 
-          <button type="submit" className="flex-1 p-2.5 bg-[#2e7d32] text-white border-none rounded cursor-pointer">
+          <button type="submit" className="flex-1 cursor-pointer rounded border-none bg-[#2e7d32] p-2.5 text-white">
             Add Product
           </button>
         </div>

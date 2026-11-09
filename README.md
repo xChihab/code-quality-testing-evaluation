@@ -150,13 +150,17 @@ Les fichiers générés (`package-lock.json`, `coverage`, `build`, `.lighthousec
 
 Chaque package a sa propre configuration au format « flat config » (`eslint.config.js`) :
 
-| Package  | ESLint | Plugins                                                                                                     |
-| -------- | ------ | ----------------------------------------------------------------------------------------------------------- |
-| Frontend | 8.57   | `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `eslint-plugin-perfectionist` |
-| Backend  | 10     | `eslint-plugin-n`, `eslint-plugin-unicorn`, `eslint-plugin-perfectionist`                                   |
+| Package  | ESLint | Plugins                                                                                                                                  |
+| -------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend | 8.57   | `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `eslint-plugin-perfectionist`, `eslint-plugin-tailwindcss` |
+| Backend  | 10     | `eslint-plugin-n`, `eslint-plugin-unicorn`, `eslint-plugin-perfectionist`                                                                |
 
 Le frontend reste sur ESLint 8 car `react-scripts` 5 en dépend ; le backend utilise la dernière version majeure.
 Les deux configurations utilisent le parser de `typescript-eslint` pour analyser les fichiers `.ts`/`.tsx`.
+
+Côté frontend, `eslint-plugin-tailwindcss` applique les règles recommandées, passées en erreur pour bloquer le commit :
+ordre des classes, raccourcis (`size-full` plutôt que `h-full w-full`…) et classes inexistantes dans la configuration
+Tailwind (`no-custom-classname`). L'ordre des classes se corrige automatiquement avec `npm run lint:fix`.
 
 **Faire cohabiter Prettier et ESLint :** les deux configurations intègrent les règles de `eslint-config-prettier`,
 qui désactive toutes les règles ESLint en conflit avec Prettier. ESLint s'occupe de la qualité du code (bugs, règles
@@ -312,7 +316,8 @@ L'application a été reprise « en l'état » et contient encore des problèmes
 ### Bonus
 
 - [x] Tailwind CSS (styles inline remplacés par des classes utilitaires)
-- [ ] Plugin ESLint pour Tailwind, design system, responsive, mode sombre
+- [x] Plugin ESLint pour Tailwind
+- [ ] Design system, responsive, mode sombre
 - [x] TypeScript (backend et frontend, mode `strict`)
 - [ ] Plugins ESLint pour TypeScript
 - [ ] Error boundaries, gestion d'état, système de logs, gestion des variables d'environnement
